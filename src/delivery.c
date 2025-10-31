@@ -228,11 +228,11 @@ int delivery( int t_num,
 	return (1);
 
 sqlerr:
-    //     fprintf(stderr, "delivery %d:%d\n",t_num,proceed);
-	// error(ctx[t_num],mysql_stmt);
-    //     /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
-	// /*EXEC_SQL ROLLBACK WORK;*/
-	// mysql_rollback(ctx[t_num]);
+        fprintf(stderr, "delivery %d:%d\n",t_num,proceed);
+	error(ctx[t_num],mysql_stmt);
+        /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
+	/*EXEC_SQL ROLLBACK WORK;*/
+	mysql_rollback(ctx[t_num]);
 sqlerrerr:
 	return (0);
 }

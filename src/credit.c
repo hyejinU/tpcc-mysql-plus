@@ -50,7 +50,6 @@
                      FROM customer
                      WHERE c_id = :c_id AND c_d_id = :d_id AND c_w_id = :w_id;*/
      mysql_stmt = stmt[t_num][35];
- 
      memset(param, 0, sizeof(MYSQL_BIND) * 3); /* initialize */
      param[0].buffer_type = MYSQL_TYPE_LONG;
      param[0].buffer = &c_id;
@@ -66,7 +65,7 @@
      column[0].buffer_type = MYSQL_TYPE_FLOAT;
      column[0].buffer = &c_balance;
      column[1].buffer_type = MYSQL_TYPE_LONG;
-     column[1].buffer = c_credit_lim;
+     column[1].buffer = &c_credit_lim;
      if( mysql_stmt_bind_result(mysql_stmt, column) ) goto sqlerr;
      switch( mysql_stmt_fetch(mysql_stmt) ) {
          case 0: //SUCCESS
@@ -103,8 +102,10 @@
      param[5].buffer = &d_id;
      param[6].buffer_type = MYSQL_TYPE_LONG;
      param[6].buffer = &w_id;
+     if( mysql_stmt_bind_param(mysql_stmt, param) ) goto sqlerr;
+     if( mysql_stmt_execute(mysql_stmt) ) goto sqlerr;
 
-     if( mysql_stmt_store_result(mysql_stmt) ) goto sqlerr;
+     if( mysql_stmt_store_result(mysql_stmt) )  goto sqlerr;
              memset(column, 0, sizeof(MYSQL_BIND) * 1); /* initialize */
              column[0].buffer_type = MYSQL_TYPE_FLOAT;
              column[0].buffer = &neworder_balance;
@@ -131,7 +132,7 @@
         c_credit[2] = '\0';
      }
 
-     proceed = 2;
+     proceed = 3;
 	/*EXEC_SQL UPDATE customer SET c_credit = :c_credit
 		WHERE c_id =:c_id AND c_d_id = :d_id and c_w_id = :w_id;*/
 	mysql_stmt = stmt[t_num][37];
@@ -155,11 +156,11 @@
      return (1);
  
  sqlerr:
-     //     fprintf(stderr,"credit\n");
-     // error(ctx[t_num],mysql_stmt);
-     //     /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
-     // /*EXEC_SQL ROLLBACK WORK;*/
-     // mysql_rollback(ctx[t_num]);
+         fprintf(stderr, "credit %d:%d\n",t_num,proceed);
+     error(ctx[t_num],mysql_stmt);
+    //      /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
+    //  /*EXEC_SQL ROLLBACK WORK;*/
+     mysql_rollback(ctx[t_num]);
  sqlerrerr:
      return (0);
  

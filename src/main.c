@@ -410,7 +410,7 @@ int main( int argc, char *argv[] )
   SetSeed(seed);
 
   if(valuable_flg==0){
-    seq_init(1,1,0,0,0,1);
+    seq_init(10,10,1,1,1,1);
   }else{
     seq_init( atoi(argv[9 + arg_offset]), atoi(argv[10 + arg_offset]), atoi(argv[11 + arg_offset]),
 	      atoi(argv[12 + arg_offset]), atoi(argv[13 + arg_offset]), 1 );
@@ -846,7 +846,7 @@ int thread_main (thread_arg* arg)
     goto sqlerr;
   }
 
-  for(i=0;i<40;i++){
+  for(i=0;i<43;i++){
       stmt[t_num][i] = mysql_stmt_init(ctx[t_num]);
       if(!stmt[t_num][i]) goto sqlerr;
   }
@@ -909,7 +909,7 @@ int thread_main (thread_arg* arg)
   /* EXEC SQL COMMIT WORK; */
   if( mysql_commit(ctx[t_num]) ) goto sqlerr;
 
-  for(i=0;i<40;i++){
+  for(i=0;i<43;i++){
       mysql_stmt_free_result(stmt[t_num][i]);
       mysql_stmt_close(stmt[t_num][i]);
   }

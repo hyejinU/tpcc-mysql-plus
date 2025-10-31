@@ -172,20 +172,20 @@ done:
 	return (1);
 
 sqlerr:
-    //     fprintf(stderr,"slev\n");
-	// error(ctx[t_num],mysql_stmt);
-    //     /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
-	// /*EXEC_SQL ROLLBACK WORK;*/
-	// mysql_rollback(ctx[t_num]);
+        fprintf(stderr,"slev\n");
+	error(ctx[t_num],mysql_stmt);
+        /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
+	/*EXEC_SQL ROLLBACK WORK;*/
+	mysql_rollback(ctx[t_num]);
 sqlerrerr:
 	return (0);
 
 sqlerr2:
-    //     fprintf(stderr,"slev\n");
-	// error(ctx[t_num],mysql_stmt2);
-    //     /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
-	// /*EXEC_SQL ROLLBACK WORK;*/
-	// mysql_stmt_free_result(mysql_stmt);
-	// mysql_rollback(ctx[t_num]);
+        fprintf(stderr,"slev\n");
+	error(ctx[t_num],mysql_stmt2);
+        /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
+	/*EXEC_SQL ROLLBACK WORK;*/
+	mysql_stmt_free_result(mysql_stmt);
+	mysql_rollback(ctx[t_num]);
 	return (0);
 }

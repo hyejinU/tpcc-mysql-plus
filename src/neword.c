@@ -344,7 +344,12 @@ int neword( int t_num,
 
 
 		price[ol_num_seq[ol_number - 1]] = i_price;
-		strncpy(iname[ol_num_seq[ol_number - 1]], i_name, 25);
+		// strncpy(iname[ol_num_seq[ol_number - 1]], i_name, 25);
+		char *dst = iname[ ol_num_seq[ol_number - 1] ];
+		size_t cap = sizeof iname[0];   // 보통 24 (I_NAME=CHAR(24))
+
+		strncpy(dst, i_name, cap);      // 최대 24바이트만
+		dst[cap - 1] = '\0';            // 항상 널 보장
 
 		/* EXEC SQL WHENEVER NOT FOUND GOTO sqlerr; */
 
@@ -528,11 +533,11 @@ invaliditem:
 	return (1); /* OK? */
 
 sqlerr:
-	// fprintf(stderr,"neword %d:%d\n",t_num,proceed);
-    //   	error(ctx[t_num],mysql_stmt);
-	// /*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
-	// /*EXEC_SQL ROLLBACK WORK;*/
-	// mysql_rollback(ctx[t_num]);
+	fprintf(stderr,"neword %d:%d\n",t_num,proceed);
+      	error(ctx[t_num],mysql_stmt);
+	/*EXEC SQL WHENEVER SQLERROR GOTO sqlerrerr;*/
+	/*EXEC_SQL ROLLBACK WORK;*/
+	mysql_rollback(ctx[t_num]);
 sqlerrerr:
 	return (0);
 }

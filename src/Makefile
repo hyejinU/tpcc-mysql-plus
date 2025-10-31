@@ -1,5 +1,5 @@
 # MySQL 8.4.5 build 경로를 직접 지정
-MYSQL_HOME = /root/snu/mysql-8.4.5-build
+MYSQL_HOME = /home/skku/mysql-8.4.5-build
 INCDIR = $(MYSQL_HOME)/include
 LIBDIR = $(MYSQL_HOME)/lib
 
